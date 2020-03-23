@@ -16,6 +16,5 @@ const insert = user => {
 
 module.exports = {
     getUsers,
-    insert,
-    findUser
+    insert
 }

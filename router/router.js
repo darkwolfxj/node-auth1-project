@@ -3,7 +3,7 @@ const router = express.Router()
 const bcrypt = require("bcryptjs")
 
 const db = require("../users-model")
-const restirct = require("../auth/restricted-middleware")
+const restrict = require("../auth/restricted-middleware")
 
 router.get("/api/users", restrict, (req, res) => {
     db.getUsers()
@@ -22,6 +22,7 @@ router.post("/api/login", (req, res) => {
     db.findUser({ username })
     .first()
     .then((user) => { 
+        console.log(user)
         if (user && bcrypt.compareSync(password, user.password)){
             req.session.user = {
                 id: user.id,
@@ -38,9 +39,5 @@ router.get("/api/logout", (req, res) => {
             (err) ? res.status(500).json({ message: "Error logging out." })
             : res.status(200).json({ message: "See you!" }))
         : res.status(400).json({ message: "Log in, you dope!" })
-})
-router.get("/api/user", (req, res) => {
-    db.findUser({ username: req.headers.username })
-        .then(user => res.status(200).json(user))
 })
 module.exports = router
