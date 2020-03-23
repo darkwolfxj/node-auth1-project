@@ -3,8 +3,9 @@ const router = express.Router()
 const bcrypt = require("bcryptjs")
 
 const db = require("../users-model")
+const restirct = require("../auth/restricted-middleware")
 
-router.get("/api/users", (req, res) => {
+router.get("/api/users", restrict, (req, res) => {
     db.getUsers()
         .then(users => res.status(200).json(users))
         .catch(() => res.status(500))
