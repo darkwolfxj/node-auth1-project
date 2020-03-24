@@ -9,15 +9,15 @@ const sessionConfig = {
     secret: "unhackable secret, maybe, not really",
     cookie: {
         maxAge: 1000 * 60 * 60,
-        secure: false,
+        secure: process.env.NODE_ENV === "development" ? true : false,
         httpOnly: true  
     },
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: false
 }
 
 server.use(express.json())
-server.use("/", router)
 server.use(session(sessionConfig))
+server.use("/", router)
 
 module.exports = server
